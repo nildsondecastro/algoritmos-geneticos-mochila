@@ -1,0 +1,100 @@
+==============================================================================================================
+                             APLICAÇÃO DE ALGORITMOS GENÉTICOS NO PROBLEMA DA MOCHILA
+==============================================================================================================
+        Observação: As pastas low-dimensional e low-dimensional-optimum contêm os arquivos txt utilizados
+        como base para execução do algoritmo, sendo assim, fundamentais para a execução do código.
+        
+        Nildson de Castro Pinheiro Mello
+==============================================================================================================
+
+==============================================================================================================
+
+### DOCUMENTAÇÃO BÁSICA ###
+
+==============================================================================================================
+ 
+~~DETALHES
+
+O algoritmo foi testado e executado utilizando o Python 3.7 através da IDE Pycharm.
+São utilizadas 3 bibliotecas: random, csv e numpy. Tais bibliotecas necessitam instalação na IDE através
+das configurações do interprete.
+
+==============================================================================================================
+
+~~DESCRIÇÃO DAS FUNÇÕES
+
+Função peso_individuo: Recebe como parâmetros o indivíduo (no caso, um vetor) e o tamanho deste indivíduo (n)
+e calcula o peso do individuo.
+O peso do indivíduo é a soma total dos pesos de cada posição do vetor.
+
+ajusta_peso: Recebe o individuo, o tamanho dele e o peso máximo (wmax). Esta função retorna um indivíduo
+dentro do peso estipulado. Para isso, ela itera enquanto o peso for inválido. A cada iteração selecionada uma
+posição aleatoria do individuo e retirado o item correspondente (única forma de reduzir o peso é retirar itens).
+Esta função é a função de tratamento de indivíduos inválidos.
+
+individuo: Recebe o tamanho do individuo e o peso máximo. Criando assim um vetor binário, onde cada posição
+representa um item da base de dados correspondente (arquivo), 1 -> tem o item na mochila, 0 -> não tem o item.
+Como os valores são dados aleatoriamente, é possível a criação de um indivíduo inválido (peso maior do que o
+máximo), portanto, a função de tratamento de inválidos é chamada.
+
+fitness: Recebe o individuo e o tamanho dele. O fitness é a soma dos lucros individuais de cada item na mochila,
+cada item com um valor próprio. Quanto maior o fitness do indivíduo, melhor é.
+
+população: Recebe o tamanho da população, tamanho dos indivíduos e peso máximo suportado pela mochila.
+Esta função apenas itera chamando a função indivíduo, retornando a população de indivíduos (lista de listas).
+
+mutação: Recebe a população, taxa de mutação (valor entre 0 e 1, normalmente na literatura utiliza-se um valor
+pequeno), pressão (variável de auxílio para esta função; quanto maior a pressão, menor o número de iterações),
+tamanho dos indivíduos e peso máximo.
+A pressão decide então quantos indivíduos não terão possibilidade alguma de serem mutados.
+É escolhida uma posição do vetor atual da iteração, então é gerado um número aleatório entre 0 e 1, caso o valor
+seja menor ou igual a taxa de mutação, então occorre mutação. A alteração é apenas a troca do valor (se for 0,
+torna-se 1; se for 1, torna-se 0). Ao final é verificado se o indivíduo tornou-se inválido realizando o ajuste
+caso necessário.
+
+seleção: Recebe a população, a pressão, tamanho do indivíduo e peso máximo. Inicialmente percorre-se a população
+armazenando o valor de fitness acompanhado do individuo correspondente na matriz indi, ou seja, indi é uma cópia
+da população acrescida dos fitness de cada indivíduos.
+Com a função 'sorted' deixa-se a matriz ordenada de forma crescente (os melhores individuos nas ultimas posições)
+e copia-se para 'indi' apenas os indivíduos (passando a ser um vetor) e move-os para a população. Ao final deste
+processo, temos em 'pop' a mesma população recebida pela função, mas agora, ordenada de acordo com o fitness.
+Então 'selecionados' recebe a parte final de indi (ou seja, melhores individuos da população) dependendo do valor
+da pressão, quanto maior o valor da pressão maior será o número de indivíduos selecionados.
+Então ocorre a chamada da função crossover, na qual ocorrerá os cruzamentos e mutações como descritos anteriormente.
+
+menu: Função apenas para printar as opções no terminal e verificar a validade do input do usuário.
+
+Abaixo do menu tem-se o caminho para as bases de dados. São 10 bases de dados (exemplos) diferentes, cada uma
+representada por um número de 1 a 10. A base 5 trabalha com números flutuantes. Cada valor separado por espaço.
+Os arquivos da pasta 'low-dimensional' são as bases de dados. Os arquivos da pasta 'low-dimensional-optimum'
+é o valor correto, utilizado apenas no momento de verificação do resultado.
+
+Após a escolha do exemplo, é feita a coleta dos dados percorrendo-se o arquivo.
+
+==============================================================================================================
+
+~~DESCRIÇÃO DAS VARIÁVEIS E PARÂMETROS
+
+'n' representa o tamanho dos indivíduos, este é o primeiro valor da primeira linha dos arquivos.
+'wmax' representa o peso máximo suportado pela mochila, este é o segundo valor da primeira linha dos arquivos.
+'lucro' representa o valor de cada item individual (lembarando que a soma dos lucros de cada item que está
+na bolsa resulta no fitness do indivíduo). Os lucros estão na primeira coluna dos arquivos.
+'peso' representa o peso de cada item individual (lembrando que a soma dos pesos de cada item que está na bolsa
+resulta no peso do indivíduo). Os pesos estão na segunda coluna dos arquivos.
+'otimo' é o fitness máximo possível de alcançar sem ultrapassar o peso máximo. É o único valor no arquivo
+correspondente.
+
+'geracoes' é o número de gerações que ocorrerá o processo. O número de iterações.
+'pressao' representa, de forma direta, o número de indivíduos bons de uma determinada geração que manteremos
+para a geração subsequente.
+'taxa_mutacao' é a possibilidade de um indivíduo sofrer mutação após o cruzamento.
+'tamanho_populacao' é a quantidade de indivíduos na população, este número não diminui e nem aumenta.
+'pop' é o vetor de vetores que representa a população.
+
+Ao final, ocorrem os prints e as iterações necessárias. Por fim, mostram-se os resultados obtidos e retorna-se
+para o início do while no qual ocorre a chamada da função 'menu' e o processo é repetido até ser informado o
+encerramento do algoritmo.
+
+==============================================================================================================
+
+==============================================================================================================
